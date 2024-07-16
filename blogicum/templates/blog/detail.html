@@ -1,23 +1,7 @@
 {% extends "base.html" %}
 {% block title %}
-  {{ post.location }} {{ post.date }}
+  {{ post.location }}. {{ post.date }}
 {% endblock %}
 {% block content %}
-  <main>
-    <div class="container py-5">
-      <article>
-        <ul>
-          <li>
-            {{ post.location }}           
-          </li>
-          <li>
-            {{ post.date }}
-          </li>
-          <li>
-            Категория: <a href="{% url 'blog:category_posts' post.category %}">{{ post.category }}</a>
-          </li>
-        </ul>         
-        <p>{{ post.text }}</p>          
-      </article>                
-    </div>
+  {% include "includes/post.html" with truncate=False %}             
 {% endblock %}

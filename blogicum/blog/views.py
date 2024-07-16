@@ -1,6 +1,8 @@
 from django.shortcuts import render
 
-# Create your views here.
+from django.http import Http404
+
+
 posts = [
     {
         'id': 0,
@@ -45,24 +47,22 @@ posts = [
 ]
 
 
+posts_dict = {post['id']: post for post in posts}
+
+
 def index(request):
-    template = 'blog/index.html'
     context = {'posts': posts}
-    return render(request, template, context)
+    return render(request, 'blog/index.html', context)
 
 
 def post_detail(request, id):
-    template = 'blog/detail.html'
-    post = None
-    for i in posts:
-        if i['id'] == id:
-            post = i
-            break
+    post = posts_dict.get(id)
+    if post is None:
+        raise Http404
     context = {'post': post}
-    return render(request, template, context)
+    return render(request, 'blog/detail.html', context)
 
 
 def category_posts(request, category_slug):
-    template = 'blog/category.html'
     context = {'category_slug': category_slug}
-    return render(request, template, context)
+    return render(request, 'blog/category.html', context)
